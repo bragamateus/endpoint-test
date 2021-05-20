@@ -25,4 +25,4 @@ $ java -jar demo-0.0.1-SNAPSHOT.jar
 # O servidor inciará na porta:8080 
 Para acessar a base de dados - acesse <http://localhost:8080/h2-console> 
 
-# Para teste do endpoint, utilize Postan ou Insomnia
+Para teste do endpoint, utilize Postan ou Insomnia
