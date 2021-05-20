@@ -5,6 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.NotNull;
+
 import lombok.Data;
 
 @Entity
@@ -34,10 +38,13 @@ public class Terminal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     private Integer logic;
 
+    @NotNull
     private String serial;
 
+    @NotNull
     private String model;
 
     private Integer sam;
@@ -46,6 +53,7 @@ public class Terminal {
 
     private Integer plat;
 
+    @NotNull
     private String version;
 
     private Integer mxr;
