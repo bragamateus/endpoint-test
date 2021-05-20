@@ -3,6 +3,8 @@ package com.example.demo.rest;
 import com.example.demo.model.entity.Terminal;
 import com.example.demo.model.repository.TerminalRepository;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/terminais")
+@RequestMapping("/v1/terminais")
 public class TerminalController {
 
     private final TerminalRepository repository;
@@ -41,7 +43,7 @@ public class TerminalController {
 
     @PostMapping( consumes = {"text/html"} , produces = "application/json")
     public ResponseEntity<String> salvar(@RequestBody String terminal) {
-        var gson = new Gson();
+        var gson = new GsonBuilder().setPrettyPrinting().create();
 
         String[] infos = terminal.split(";");
 
@@ -58,10 +60,9 @@ public class TerminalController {
         		infos[8]);
         
         
-        
         System.out.println(gson.toJson(object));
 
-        return ResponseEntity.ok(terminal);
+        return ResponseEntity.ok(gson.toJson(object));
     }
 
     public void verificarSeExiste(Terminal terminal) {
@@ -72,14 +73,11 @@ public class TerminalController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void editar(@PathVariable Integer logic, @RequestBody @Valid Terminal terminal, Integer id){
 
-        terminal.setId(id);
-
-        if (terminal.getId().equals(id)) {
             terminal.setLogic(logic);
+            
             verificarSeExiste(terminal);
 
             repository.save(terminal);
-        }
 
 
     }
