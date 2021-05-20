@@ -19,6 +19,7 @@ public class Terminal {
 			Integer plat, String version, Integer mxr, String verfm) {
 		
 		this.logic = logic;
+		this.serial = serial;
 		this.model = model;
 		this.sam = sam;
 		this.ptid = ptid;
