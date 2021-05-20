@@ -1,22 +1,34 @@
 package com.example.demo.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import lombok.Data;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Terminal {
+	
+	public Terminal(){
+		
+	}
+	
+	public Terminal(Integer logic, String serial, String model, Integer sam, String ptid,
+			Integer plat, String version, Integer mxr, String verfm) {
+		
+		this.logic = logic;
+		this.model = model;
+		this.sam = sam;
+		this.ptid = ptid;
+		this.plat = plat;
+		this.version = version;
+		this.mxr = mxr;
+		this.verfm = verfm;
+		
+	}
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -37,5 +49,6 @@ public class Terminal {
 
     private Integer mxr;
 
-    private String VERFM;
+    private String verfm;
+
 }
