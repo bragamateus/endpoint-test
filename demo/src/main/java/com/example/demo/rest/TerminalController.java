@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+
+import java.net.URI;
 import java.util.Optional;
 
 @RestController
@@ -42,12 +45,12 @@ public class TerminalController {
     }
 
     @PostMapping( consumes = {"text/html"} , produces = "application/json")
-    public ResponseEntity<String> salvar(@RequestBody String terminal) {
+    public ResponseEntity<String> salvar(@Valid @RequestBody String entrada) {
         var gson = new GsonBuilder().setPrettyPrinting().create();
 
-        String[] infos = terminal.split(";");
+        String[] infos = entrada.split(";");
 
-        Terminal object = new Terminal(
+        Terminal terminal = new Terminal(
         		
         		Integer.parseInt(infos[0]), 
         		infos[1], 
@@ -60,10 +63,12 @@ public class TerminalController {
         		infos[8]);
         
         
-        System.out.println(gson.toJson(object));
-        repository.save(object);
+        repository.save(terminal);
+        
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{logic}").buildAndExpand(terminal.getLogic()).toUri();
 
-        return ResponseEntity.ok(gson.toJson(object));
+        return ResponseEntity.created(uri).body(gson.toJson(terminal));
     }
 
     public void verificarSeExiste(Terminal terminal) {
