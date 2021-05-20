@@ -61,6 +61,7 @@ public class TerminalController {
         
         
         System.out.println(gson.toJson(object));
+        repository.save(object);
 
         return ResponseEntity.ok(gson.toJson(object));
     }
