@@ -1,15 +1,12 @@
 package com.example.demo.model.entity;
 
+import com.sun.istack.NotNull;
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.istack.NotNull;
-
-import lombok.Data;
 
 @Entity
 @Data
@@ -20,7 +17,7 @@ public class Terminal {
 	}
 	
 	public Terminal(Integer logic, String serial, String model, Integer sam, String ptid,
-			Integer plat, String version, Integer mxr, String verfm) {
+			Integer plat, String version, Integer mxr, Integer mxf,  String verfm) {
 		
 		this.logic = logic;
 		this.serial = serial;
@@ -30,6 +27,7 @@ public class Terminal {
 		this.plat = plat;
 		this.version = version;
 		this.mxr = mxr;
+		this.mxf = mxf;
 		this.verfm = verfm;
 		
 	}
@@ -57,6 +55,8 @@ public class Terminal {
     private String version;
 
     private Integer mxr;
+
+    private Integer mxf;
 
     private String verfm;
 
