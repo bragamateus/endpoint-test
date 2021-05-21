@@ -2,9 +2,7 @@ package com.example.demo.rest;
 
 import com.example.demo.model.entity.Terminal;
 import com.example.demo.model.repository.TerminalRepository;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-
-import java.net.URI;
 import java.util.Optional;
 
 @RestController
@@ -44,13 +40,14 @@ public class TerminalController {
         return terminal;
     }
 
+
     @PostMapping( consumes = {"text/html"} , produces = "application/json")
     public ResponseEntity<String> salvar(@Valid @RequestBody String entrada) {
         var gson = new GsonBuilder().setPrettyPrinting().create();
 
         String[] infos = entrada.split(";");
 
-        Terminal terminal = new Terminal(
+        var terminal = new Terminal(
         		
         		Integer.parseInt(infos[0]), 
         		infos[1], 
@@ -59,31 +56,31 @@ public class TerminalController {
         		infos[4], 
         		Integer.parseInt(infos[5]), 
         		infos[6], 
-        		Integer.parseInt(infos[7]), 
-        		infos[8]);
+        		Integer.parseInt(infos[7]),
+        		Integer.parseInt(infos[8]),
+        		infos[9]);
         
         
         repository.save(terminal);
         
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+        var uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{logic}").buildAndExpand(terminal.getLogic()).toUri();
 
         return ResponseEntity.created(uri).body(gson.toJson(terminal));
     }
 
-    public void verificarSeExiste(Terminal terminal) {
-        buscar(terminal.getLogic());
-    }
 
     @PutMapping("{logic}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editar(@PathVariable Integer logic, @RequestBody @Valid Terminal terminal, Integer id){
+    public ResponseEntity<Terminal> editar(@PathVariable Integer logic, @RequestBody @Valid Terminal terminal){
 
-            terminal.setLogic(logic);
-            
-            verificarSeExiste(terminal);
+        if (!repository.existsTerminalByLogic(logic)){
+                return ResponseEntity.notFound().build();
+        }
 
-            repository.save(terminal);
+        terminal.setLogic(logic);
+
+        terminal = repository.save(terminal);
+            return ResponseEntity.ok(terminal);
 
 
     }

@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface TerminalRepository extends JpaRepository<Terminal, Integer> {
 
     Optional<Terminal> findByLogic(Integer logic);
+    boolean existsTerminalByLogic(Integer logic);
 }
